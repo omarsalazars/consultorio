@@ -1,9 +1,45 @@
-<input type="text" placeholder="Nombre" ng-model="nombre"><br>
-<input type="text" placeholder="Apellidos" ng-model="apellidos"><br>
-<label>Fecha de nacimiento</label>
-<input type="date" ng-model="fechaNacimiento"><br>
-<input type="number" placeholder="Peso en kg" ng-model="peso"><br>
-<input type="number" placeholder="Teléfono" ng-model="telefono"><br>
-<input type="email" placeholder="Correo Electrónico" ng-model="email"><br>
-<input type="password" placeholder="Contraseña" ng-model="password"><br>
-<button type="button" ng-click="login()">Registrar</button>
+<style type="text/css">
+	.sign{
+		width: 60%;
+		align-content: center;
+		margin: auto;
+		 margin-bottom: 100px;
+	}
+</style>
+
+<div class="sign">
+	 <div class="form-header">
+	    <h3 class="form-title"><i class="fa fa-user"></i> Registrarte</h3>              
+	  </div>
+	 <div class="row">
+		 <label  class="control-label">Nombre</label>
+		<input type="text" placeholder="Nombre" ng-model="nombre" class="form-control"><br>
+	</div>
+	<div class="row">
+		<label  class="control-label">Apellidos</label>
+		<input type="text" placeholder="Apellidos" ng-model="apellidos" class="form-control"><br>
+	</div>
+	 <div class="row">
+		<label>Fecha de nacimiento</label>
+		<input type="date" ng-model="fechaNacimiento" class="form-control"><br>
+	</div>
+	 <div class="row">
+		<label  class="control-label">Peso en kilogramos</label>
+		<input type="number" placeholder="Peso en kg" ng-model="peso" class="form-control"><br>
+	</div>
+	<div class="row">
+		<label  class="control-label">Telefono</label>
+		<input type="number" placeholder="Teléfono" ng-model="telefono" class="form-control"><br>
+	</div>
+	 <div class="row">
+		<label  class="control-label">Correo electronico</label>
+		<input type="email" placeholder="Correo Electrónico" ng-model="email" class="form-control"><br>
+	</div>
+	 <div class="row">
+		<label  class="control-label">Password</label>
+		<input type="password" placeholder="Contraseña" ng-model="password" class="form-control"><br>
+	</div>
+	 <div class="row">
+		<button type="button" ng-click="login()" class="main_btn text-uppercase">Registrar</button>
+	<div><br>
+</div>
