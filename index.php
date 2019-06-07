@@ -56,6 +56,7 @@
         });
         app.controller("signinController",function($scope,$http){
             $scope.login = function(){
+                alert('arre');
                 $http({
                     method : "POST",
                     url : "http://localhost/consultorio/api/paciente/create.php",
@@ -75,6 +76,8 @@
                     },
                     function error(response){
                         $scope.data = response.statusText;
+                        alert('no se hizo :(');
+                        console.log(response);
                     }
                 );
             }
