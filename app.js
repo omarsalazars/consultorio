@@ -5,7 +5,6 @@ app.config(function($routeProvider){
         templateUrl : "view/indexView.html"
     })
     .when("/about",{
-        templateUrl : "view/about.html"
     })
     .when("/blog",{
         templateUrl : "view/blog.html"
