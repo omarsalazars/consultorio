@@ -14,16 +14,16 @@
 	    <h3 class="form-title"><i class="fa fa-user"></i> Inicia sesion</h3><br>            
 	  </div>
 	<div class="row">
-		 <label  class="control-label">Usuario</label>
-		 <input type="text" placeholder="usuario" class="form-control"><br>
+		 <label  class="control-label">Email</label>
+		 <input type="text" ng-model="email" placeholder="Correo Electrónico" class="form-control"><br>
 		
 	</div>
 	<div class="row">
 		 <label  class="control-label">Password</label>
-		 <input type="password" placeholder="contraseña"  class="form-control"><br>
+		 <input type="password" ng-model="password" placeholder="contraseña"  class="form-control"><br>
 	</div>
 	 <div class="row">	
-		<button type="button" class="main_btn text-uppercase">Ingresar</button>
+		<button type="button" class="main_btn text-uppercase" ng-click="login()">Ingresar</button>
 	</div>
 </div>
 </body>

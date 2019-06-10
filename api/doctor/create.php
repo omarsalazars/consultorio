@@ -10,7 +10,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 include_once '../config/connection.php';
 
 // instantiate product object
-include_once '../objects/cita.php';
+include_once '../objects/doctor.php';
 
 $database = new Database();
 $db = $database->getConnection();

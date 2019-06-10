@@ -9,6 +9,10 @@ date_default_timezone_set('Asia/Manila');
 $key = "example_key";
 $iss = "http://localhost";
 $aud = "http://localhost";
-$iat = 1356999524;
-$nbf = 1357000000;
+$initDate = new DateTime();
+$iat = $initDate->getTimeStamp();
+$nbf = $initDate->getTimeStamp();
+$endDate = $initDate;
+$endDate->add(new DateInterval('P10D'));
+$exp = $endDate->getTimeStamp();
 ?>

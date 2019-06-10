@@ -57,7 +57,8 @@ if(
         http_response_code(503);
 
         // tell the user
-        echo json_encode(array("message" => "Unable to create paciente."));
+        //echo json_encode(array("message" => "Unable to create paciente."));
+        echo print_r($data);
     }
 }
 
@@ -66,8 +67,9 @@ else{
 
     // set response code - 400 bad request
     http_response_code(400);
+    echo print_r($data);
 
     // tell the user
-    echo json_encode(array("message" => "Unable to create Paciente. Data is incomplete."));
+    //echo json_encode(array("message" => "Unable to create Paciente. Data is incomplete."));
 }
 ?>
