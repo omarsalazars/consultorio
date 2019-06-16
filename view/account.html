@@ -1,0 +1,56 @@
+<div class="container">
+    <h1><i class="fa fa-user"></i> Mi cuenta</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <label  class="control-label">Email</label>
+            <input type="text" ng-model="user.email" placeholder="Correo Electrónico" class="form-control"><br>
+        </div>
+        <div class="col-md-6">
+            <label  class="control-label">Nombre</label>
+            <input type="text" placeholder="Nombre" ng-model="user.nombre" class="form-control"><br>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <label  class="control-label">Apellidos</label>
+            <input type="text" placeholder="Apellidos" ng-model="user.apellidos" class="form-control"><br>
+        </div>
+        <div class="col-md-6">
+            <label>Fecha de nacimiento</label>
+            <input type="date" class="form-control" value="{{user.fechaNacimiento}}"><br>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <label  class="control-label">Peso en kilogramos</label>
+            <input type="number" placeholder="Peso en kg" ng-model="user.peso" class="form-control"><br>
+        </div>
+        <div class="col-md-6">
+            <label  class="control-label">Telefono</label>
+            <input type="number" placeholder="Teléfono" ng-model="user.telefono" class="form-control"><br>
+        </div>
+    </div>
+    <button type="button" class="main_btn text-uppercase" ng-click="update()">Actualizar Información</button>
+    <div>
+        <h3>Registro de Citas</h3>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col"># de Cita</th>
+                    <th scope="col">Fecha (YYYY-MM-DD)</th>
+                    <th scope="col">Doctor</th>
+                    <th scope="col">Paciente</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="cita in citas">
+                    <th scope="row">{{cita.idCita}}</th>
+                    <td>{{cita.fecha}}</td>
+                    <td>{{cita.doctor.nombre}} {{cita.doctor.apellidos}}</td>
+                    <td>{{cita.paciente.nombre}} {{cita.paciente.apellidos}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>

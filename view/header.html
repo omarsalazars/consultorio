@@ -1,5 +1,5 @@
 	<!--================Header Menu Area =================-->
-	<header class="header_area">
+	<header ng-controller="headerController">
 		<div class="top_menu row m0">
 			<div class="container">
 				<div class="float-left">
@@ -24,11 +24,22 @@
 								<i class="fa fa-behance"></i>
 							</a>
 						</li>
-                        <li>
+                        <li ng-show="!logged">
                             <a href="#!signin">Registrarse</a>
                         </li>
-                        <li>
+                        <li ng-show="!logged">
                             <a href="#!login">Iniciar sesion</a>
+                        </li>
+                        <li>
+                            <a href="#!cuenta" ng-show="logged">
+                                Mi cuenta
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#/!" ng-click="logout()" ng-show="logged">Cerrar sesion</a>
+                        </li>
+                        <li ng-show="logged">
+                            <p>Bienvenido {{name}}</p>
                         </li>
 					</ul>
 				</div>

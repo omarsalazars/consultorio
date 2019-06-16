@@ -1,15 +1,12 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <?php require 'view/assets.php' ?>
+        <?php require 'view/assets.html'; ?>
     </head>
 
     <body ng-app="myApp">
-        <?php require 'view/header.html'; ?>
-
-        <div ng-view style="margin-top:30vh;"></div>
-
+        <header ng-include src="'view/header.html'"></header>
+        <ng-view></ng-view>
         <?php require 'view/footer.html'; ?>
-
     </body>
 </html>

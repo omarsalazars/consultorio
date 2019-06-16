@@ -8,36 +8,39 @@ header('Content-Type: application/json');
 
 // include database and object files
 include_once '../config/connection.php';
-include_once '../objects/cita.php';
+include_once '../objects/paciente.php';
 
 // get database connection
 $database = new Database();
 $db = $database->getConnection();
 
 // prepare product object
-$cita = new Cita($db);
+$paciente = new Paciente($db);
 
 // set ID property of record to read
-$cita->idCita = isset($_GET['idCita']) ? $_GET['idCita'] : die();
+$paciente->idPaciente = isset($_GET['idPaciente']) ? $_GET['idPaciente'] : die();
 
 // read the details of product to be edited
-$cita->readOne();
+$paciente->readOne();
 
-if($cita->idCita!=null){
+if($paciente->idPaciente!=null){
     // create array
-    $citas_arr = array(
-        "idCita" =>  $cita->idCita,
-        "idPaciente" => $cita->idPaciente,
-        "idDoctor" => $cita->idDoctor,
-        "idAdministrativo" => $cita->idAdministrativo,
-        "fecha" => $cita->fecha
+    $paciente_arr = array(
+        "idPaciente" =>  $paciente->idPaciente,
+        "nombre" => $paciente->nombre,
+        "apellidos" => $paciente->apellidos,
+        "fechaNacimiento" => $paciente->fechaNacimiento,
+        "peso" => $paciente->peso,
+        "telefono" => $paciente->telefono,
+        "email" => $paciente->email,
+        "password" => $paciente->password
     );
 
     // set response code - 200 OK
     http_response_code(200);
 
     // make it json format
-    echo json_encode($citas_arr);
+    echo json_encode($paciente_arr);
 }
 
 else{
@@ -45,6 +48,6 @@ else{
     http_response_code(404);
 
     // tell the user product does not exist
-    echo json_encode(array("message" => "Cita does not exist."));
+    echo json_encode(array("message" => "Paciente does not exist."));
 }
 ?>

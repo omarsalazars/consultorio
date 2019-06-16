@@ -64,6 +64,34 @@ class Paciente{
 
     }
 
+    function readOne(){
+
+        // query to read single record
+        $query = "SELECT * FROM " . $this->table_name . " WHERE idPaciente = ? LIMIT 0,1";
+
+        // prepare query statement
+        $stmt = $this->conn->prepare( $query );
+
+        // bind id of product to be updated
+        $stmt->bindParam(1, $this->idPaciente);
+
+        // execute query
+        $stmt->execute();
+
+        // get retrieved row
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // set values to object properties
+        $this->idPaciente = $row['idPaciente'];
+        $this->nombre = $row['nombre'];
+        $this->apellidos = $row['apellidos'];
+        $this->fechaNacimiento = $row['fechaNacimiento'];
+        $this->peso = $row['peso'];
+        $this->telefono = $row['telefono'];
+        $this->email = $row['email'];
+        $this->password = $row['password'];
+    }
+
     // check if given email exist in the database
     function emailExists(){
 
