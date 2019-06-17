@@ -42,7 +42,7 @@ app.config(function($routeProvider){
         templateUrl : "view/admin.html",
         controller: "adminController"
     })
-        .when("/administrador",{
+        .when("/administrador/:tab",{
         templateUrl: "view/administrator.html",
         controller: "administratorController"
     });
@@ -74,9 +74,30 @@ app.run(function($rootScope, $http, $location, $localStorage, $templateCache){
     });
 });
 
-app.controller("administratorController",function($scope,$http){
-    $scope.tabs=[true,false,false,false];
+app.controller("administratorController",function($scope,$http,$routeParams){
 
+    $(".admin").find(".nav-link").click(function(){
+        $(".admin").find(".nav-link").removeClass('active');
+        $(this).addClass('active');
+    });
+    
+    $scope.toggle = function(index){
+        for(var i=0;i<$scope.tabs.length;i++){
+            $scope.tabs[i]=false;
+        }
+        $scope.tabs[index]=true;
+        $(".admin").find(".nav-link").removeClass('active');
+        $(".admin").find(".nav-link").eq(index).addClass('active');
+    }
+
+    $scope.tabs=[false,false,false,false];
+    if($routeParams.tab<$scope.tabs){
+        $scope.toggle($routeParams.tab);
+    }
+    else{
+        $scope.tabs[0]=true;
+    }
+    
     $http({
         method: 'GET',
         url: 'http://localhost/consultorio/api/cita/read.php'
@@ -100,7 +121,7 @@ app.controller("administratorController",function($scope,$http){
             console.log(response);
         }
     );
-    
+
     $http({
         method: 'GET',
         url: 'http://localhost/consultorio/api/doctor/read.php'
@@ -112,7 +133,7 @@ app.controller("administratorController",function($scope,$http){
             console.log(response);
         }
     );
-    
+
     $http({
         method: 'GET',
         url: 'http://localhost/consultorio/api/administrativo/read.php'
@@ -162,13 +183,6 @@ app.controller("administratorController",function($scope,$http){
             }
         );
     };
-
-    $scope.toggle = function(index){
-        for(var i=0;i<$scope.tabs.length;i++){
-            $scope.tabs[i]=false;
-        }
-        $scope.tabs[index]=true;
-    }
 });
 
 app.controller("adminController",function($scope, $rootScope, $http, AuthenticationService, $location){
