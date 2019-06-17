@@ -23,7 +23,8 @@ function Service($http, $localStorage,$rootScope) {
                     apellidos: response.data.apellidos,
                     fechaNacimiento: response.data.fechaNacimiento,
                     peso : response.data.peso,
-                    telefono: response.data.telefono
+                    telefono: response.data.telefono,
+                    admin: false
                 };
                 $rootScope.name = response.data.nombre;
 
@@ -54,7 +55,8 @@ function Service($http, $localStorage,$rootScope) {
                     apellidos: response.data.apellidos,
                     fechaNacimiento: response.data.fechaNacimiento,
                     peso : response.data.peso,
-                    telefono: response.data.telefono
+                    telefono: response.data.telefono,
+                    admin : true
                 };
                 $rootScope.name = response.data.nombre;
 

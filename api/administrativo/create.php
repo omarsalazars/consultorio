@@ -10,39 +10,43 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 include_once '../config/connection.php';
 
 // instantiate product object
-include_once '../objects/cita.php';
+include_once '../objects/administrativo.php';
 
 $database = new Database();
 $db = $database->getConnection();
 
-$cita = new Cita($db);
+$admin = new Administrativo($db);
 
 // get posted data
 $data = json_decode(file_get_contents("php://input"));
 
 // make sure data is not empty
 if(
-    !empty($data->idPaciente) &&
-    !empty($data->fecha) &&
-    !empty($data->idDoctor) &&
-    !empty($data->idAdministrativo)
+    !empty($data->idAdministrativo) &&
+    !empty($data->nombre) &&
+    !empty($data->apellidos) &&
+    !empty($data->telefono) &&
+    !empty($data->email) &&
+    !empty($data->password)
 ){
 
     // set product property values
-    $cita->idPaciente = $data->idPaciente;
-    $cita->idDoctor = $data->idDoctor;
-    $cita->idAdministrativo = $data->idAdministrativo;
-    $cita->fecha = $data->fecha;
+    $admin->idAdministrativo = $data->idAdministrativo;
+    $admin->nombre = $data->nombre;
+    $admin->apellidos = $data->apellidos;
+    $admin->email = $data->email;
+    $admin->telefono = $data->telefono;
+    $admin->password = $data->password;
     //$cita->fecha = date('Y-m-d H:i:s');
 
     // create the product
-    if($cita->create()){
+    if($admin->create()){
 
         // set response code - 201 created
         http_response_code(201);
 
         // tell the user
-        echo json_encode(array("message" => "Cita was created."));
+        echo json_encode(array("message" => "Admin was created."));
     }
 
     // if unable to create the product, tell the user
@@ -52,7 +56,7 @@ if(
         http_response_code(503);
 
         // tell the user
-        echo json_encode(array("message" => "Unable to create cita."));
+        echo json_encode(array("message" => "Unable to create admin."));
     }
 }
 
@@ -63,6 +67,6 @@ else{
     http_response_code(400);
 
     // tell the user
-    echo json_encode(array("message" => "Unable to create cita. Data is incomplete."));
+    echo json_encode(array("message" => "Unable to create admin. Data is incomplete."));
 }
 ?>

@@ -17,7 +17,9 @@ class Cita{
     }
 
     function read(){
-        $query = "SELECT * from ". $this->table_name;
+        $query = "SELECT c.idCita, c.fecha, p.idPaciente as pId, p.nombre as pNombre, p.apellidos as pApellidos, d.idDoctor as dId, d.nombre as dNombre, d.apellidos as dApellidos, a.idAdministrativo as aId, a.nombre as aNombre, a.apellidos as aApellidos 
+        FROM consultorio.cita as c, consultorio.paciente as p, consultorio.doctor as d, consultorio.administrativo as a 
+        WHERE c.idPaciente = p.idPaciente AND c.idDoctor = d.idDoctor AND c.idAdministrativo = a.idAdministrativo";
 
         $stmt = $this->conn->prepare($query);
         $stmt->execute();

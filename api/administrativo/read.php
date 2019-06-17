@@ -7,25 +7,25 @@ header("Content-Type: application/json; charset=UTF-8");
 
 // include database and object files
 include_once '../config/connection.php';
-include_once '../objects/cita.php';
+include_once '../objects/administrativo.php';
  
 // instantiate database and product object
 $database = new Database();
 $db = $database->getConnection();
  
 // initialize object
-$cita = new Cita($db);
+$admin = new Administrativo($db);
  
 // read products will be here
 // query products
-$stmt = $cita->read();
+$stmt = $admin->read();
 $num = $stmt->rowCount();
  
 // check if more than 0 record found
 if($num>0){
  
     // citas array
-    $citas_arr=array();
+    $admin_arr=array();
  
     // retrieve our table contents
     // fetch() is faster than fetchAll()
@@ -36,28 +36,28 @@ if($num>0){
         // just $name only
         extract($row);
         
-        $cita_item=array(
-            "idCita" => $idCita,
-            "idPaciente" => $idPaciente,
-            "idDoctor" => $idDoctor,
+        $admin_item=array(
             "idAdministrativo" => $idAdministrativo,
-            "fecha" => $fecha
+            "nombre" => $nombre,
+            "apellidos" => $apellidos,
+            "telefono" => $telefono,
+            "email" => $email
         );
  
-        array_push($citas_arr, $cita_item);
+        array_push($admin_arr, $admin_item);
     }
  
     // set response code - 200 OK
     http_response_code(200);
  
     // show products data in json format
-    echo json_encode($citas_arr);
+    echo json_encode($admin_arr);
 }
 else{
     http_response_code(404);
     
     echo json_encode(
-        array("message" => "No products found.")
+        array("message" => "No admins found.")
     );
 }
  

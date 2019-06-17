@@ -219,22 +219,21 @@ class Paciente{
 
         return false;
     }
-    /*
 
     // delete the product
     function delete(){
 
         // delete query
-        $query = "DELETE FROM " . $this->table_name . " WHERE idCita = ?";
+        $query = "DELETE FROM " . $this->table_name . " WHERE idPaciente = ?";
 
         // prepare query
         $stmt = $this->conn->prepare($query);
 
         // sanitize
-        $this->id=htmlspecialchars(strip_tags($this->idCita));
+        $this->id=htmlspecialchars(strip_tags($this->idPaciente));
 
         // bind id of record to delete
-        $stmt->bindParam(1, $this->idCita);
+        $stmt->bindParam(1, $this->idPaciente);
 
         // execute query
         if($stmt->execute()){
@@ -242,5 +241,4 @@ class Paciente{
         }
         return false;
     }
-    */
 }

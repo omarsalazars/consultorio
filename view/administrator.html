@@ -1,0 +1,296 @@
+<!-- ADMIN AREA  -->
+<div class="container admin">
+    <ul class="nav nav-pills nav-fill">
+        <li class="nav-item">
+            <a class="nav-link active" ng-click="toggle(0)">Citas</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" ng-click="toggle(1)">Pacientes</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" ng-click="toggle(2)">Doctores</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" ng-click="toggle(3)">Administradores</a>
+        </li>
+    </ul>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div id="citas" ng-show="tabs[0]">
+                <table class="table table-responsive">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Paciente</th>
+                            <th scope="col">Doctor</th>
+                            <th scope="col">Administrativo</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="cita in citas">
+                            <th scope="row">{{cita.idCita}}</th>
+                            <td>{{cita.fecha}}</td>
+                            <td>{{cita.doctor.nombre}} {{cita.doctor.apellidos}}</td>
+                            <td>{{cita.paciente.nombre}} {{cita.paciente.apellidos}}</td>
+                            <td>{{cita.admin.nombre}} {{cita.admin.apellidos}}</td>
+                            <td>
+                                <button type="button" class="btn btn-info">Modificar</button>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger" ng-click="deleteCita(cita)">Eliminar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Crear cita</h3>
+                <div class="row">
+                    <div class="col-md-6 col-xs-12">
+                        <label>Paciente</label>
+                        <select class="form-control">
+                            <option>Seleccione un paciente</option>
+                            <option ng-repeat="paciente in pacientes" value="{{paciente.id}}">
+                                {{paciente.nombre}} {{paciente.apellidos}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 col-xs-12">
+                        <label>Doctor</label>
+                        <select class="form-control">
+                            <option>Seleccione un doctor</option>
+                            <option ng-repeat="doctor in doctores" value="{{doctor.id}}">
+                                {{doctor.nombre}} {{doctor.apellidos}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row py-2">
+                    <div class="col-md-12    col-xs-12">
+                        <label>Fecha</label>
+                        <input type="date" class="form-control">
+                    </div>
+                </div>
+                <div class="text-center py-3">
+                    <button type="button" class="btn btn-success">Crear cita</button>
+                </div>
+            </div>
+
+            <div  id="pacientes" ng-show="tabs[1]">
+                <table class="table table-responsive">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellidos</th>
+                            <th scope="col">Nacimiento</th>
+                            <th scope="col">Peso</th>
+                            <th scope="col">Telefono</th>
+                            <th scope="col">Email</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="paciente in pacientes">
+                            <th scope="row">{{paciente.idPaciente}}</th>
+                            <td>{{paciente.nombre}}</td>
+                            <td>{{paciente.apellidos}}</td>
+                            <td>{{paciente.fechaNacimiento}}</td>
+                            <td>{{paciente.peso}}</td>
+                            <td>{{paciente.telefono}}</td>
+                            <td>{{paciente.email}}</td>
+                            <td>
+                                <button type="button" class="btn btn-info">Modificar</button>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger" ng-click="deletePaciente(paciente)">Eliminar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h3>Registrar Paciente</h3>
+                <div class="row">
+                    <div class="col-md-6 col-xs-12">
+                        <label>Nombre</label>
+                        <input class="form-control" type="text" placeholder="Nombre">
+                    </div>
+                    <div class="col-md-6 col-xs-12">
+                        <label>Apellidos</label>
+                        <input class="form-control" type="text" placeholder="Apellidos">
+                    </div>
+                </div>
+                <div class="row py-2">
+                    <div class="col-md-6 col-xs-12">
+                        <label>Fecha de Nacimiento</label>
+                        <input class="form-control" type="email" placeholder="Fecha de Nacimiento">
+                    </div>
+                    <div class="col-md-6 col-xs-12">
+                        <label>Telefono</label>
+                        <input class="form-control" type="number" placeholder="Telefono">
+                    </div>
+                </div>
+                <div class="row py-2">
+                    <div class="col-md-6 col-xs-12">
+                        <label>Email</label>
+                        <input class="form-control" type="email" placeholder="Email">
+                    </div>
+                    <div class="col-md-6 col-xs-12">
+                        <label>Contraseña</label>
+                        <input class="form-control" type="password" placeholder="Contraseña">
+                    </div>
+                </div>
+                <div class="row py-3">
+                    <div class="col-md-12 col-xs-12">
+                        <label>Peso</label>
+                        <input class="form-control" type="number" placeholder="Peso">
+                    </div>
+                </div>
+                <div class="text-center py-3">
+                    <button type="button" class="btn btn-success" style="width:100%;">Crear Paciente</button>
+                </div>
+            </div>
+
+            <div id="doctores" ng-show="tabs[2]">
+                <table class="table table-responsive">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellidos</th>
+                            <th scope="col">Telefono</th>
+                            <th scope="col">Email</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="doctor in doctores">
+                            <th scope="row">{{doctor.idPaciente}}</th>
+                            <td>{{doctor.nombre}}</td>
+                            <td>{{doctor.apellidos}}</td>
+                            <td>{{doctor.telefono}}</td>
+                            <td>{{doctor.email}}</td>
+                            <td>
+                                <button type="button" class="btn btn-info">Modificar</button>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger" ng-click="deleteDoctor(doctor)">Eliminar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h3>Registrar Doctor</h3>
+                <div class="row">
+                    <div class="col-md-6 col-xs-12">
+                        <label>Nombre</label>
+                        <input class="form-control" type="text" placeholder="Nombre">
+                    </div>
+                    <div class="col-md-6 col-xs-12">
+                        <label>Apellidos</label>
+                        <input class="form-control" type="text" placeholder="Apellidos">
+                    </div>
+                </div>
+                <div class="row py-2">
+                    <div class="col-md-6 col-xs-12">
+                        <label>Email</label>
+                        <input class="form-control" type="email" placeholder="Email">
+                    </div>
+                    <div class="col-md-6 col-xs-12">
+                        <label>Contraseña</label>
+                        <input class="form-control" type="password" placeholder="Contraseña">
+                    </div>
+                </div>
+                <div class="row py-2">
+                    <div class="col-md-6 col-xs-12">
+                        <label>Telefono</label>
+                        <input class="form-control" type="number" placeholder="Telefono">
+                    </div>
+                </div>
+                <div class="text-center py-3">
+                    <button type="button" class="btn btn-success" style="width:100%;">Crear Doctor</button>
+                </div>
+                
+                
+            </div>
+
+            <div id="administrativos" ng-show="tabs[3]">
+                <table class="table table-responsive">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellidos</th>
+                            <th scope="col">Telefono</th>
+                            <th scope="col">Email</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="admin in administradores">
+                            <th scope="row">{{admin.idAdministrativo}}</th>
+                            <td>{{admin.nombre}}</td>
+                            <td>{{admin.apellidos}}</td>
+                            <td>{{admin.telefono}}</td>
+                            <td>{{admin.email}}</td>
+                            <td>
+                                <button type="button" class="btn btn-info">Modificar</button>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger" ng-click="deleteAdmin(admin)">Eliminar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h3>Registrar Administrador</h3>
+                <div class="row">
+                    <div class="col-md-6 col-xs-12">
+                        <label>Nombre</label>
+                        <input class="form-control" type="text" placeholder="Nombre">
+                    </div>
+                    <div class="col-md-6 col-xs-12">
+                        <label>Apellidos</label>
+                        <input class="form-control" type="text" placeholder="Apellidos">
+                    </div>
+                </div>
+                <div class="row py-2">
+                    <div class="col-md-6 col-xs-12">
+                        <label>Email</label>
+                        <input class="form-control" type="email" placeholder="Email">
+                    </div>
+                    <div class="col-md-6 col-xs-12">
+                        <label>Contraseña</label>
+                        <input class="form-control" type="password" placeholder="Contraseña">
+                    </div>
+                </div>
+                <div class="row py-2">
+                    <div class="col-md-6 col-xs-12">
+                        <label>Telefono</label>
+                        <input class="form-control" type="number" placeholder="Telefono">
+                    </div>
+                </div>
+                <div class="text-center py-3">
+                    <button type="button" class="btn btn-success" style="width:100%;">Crear Administrador</button>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .admin ul li{
+        display: inline;
+        padding: 15px;
+    }
+</style>
+<script>
+    $(".nav-link").click(function(){
+        $(".nav-link").removeClass('active');
+        $(this).addClass('active');
+    });
+</script>

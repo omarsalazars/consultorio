@@ -14,18 +14,18 @@ $database = new Database();
 $db = $database->getConnection();
  
 // initialize object
-$cita = new Cita($db);
+$paciente = new Paciente($db);
  
 // read products will be here
 // query products
-$stmt = $cita->read();
+$stmt = $paciente->read();
 $num = $stmt->rowCount();
  
 // check if more than 0 record found
 if($num>0){
  
     // citas array
-    $citas_arr=array();
+    $pacientes_arr=array();
  
     // retrieve our table contents
     // fetch() is faster than fetchAll()
@@ -36,22 +36,24 @@ if($num>0){
         // just $name only
         extract($row);
         
-        $cita_item=array(
-            "idCita" => $idCita,
+        $paciente_item=array(
             "idPaciente" => $idPaciente,
-            "idDoctor" => $idDoctor,
-            "idAdministrativo" => $idAdministrativo,
-            "fecha" => $fecha
+            "nombre" => $nombre,
+            "apellidos" => $apellidos,
+            "fechaNacimiento" => $fechaNacimiento,
+            "peso" => $peso,
+            "telefono" => $telefono,
+            "email" => $email
         );
  
-        array_push($citas_arr, $cita_item);
+        array_push($pacientes_arr, $paciente_item);
     }
  
     // set response code - 200 OK
     http_response_code(200);
  
     // show products data in json format
-    echo json_encode($citas_arr);
+    echo json_encode($pacientes_arr);
 }
 else{
     http_response_code(404);

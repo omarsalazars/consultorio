@@ -36,12 +36,38 @@ if($num>0){
         // just $name only
         extract($row);
         
+        $paciente_item = array(
+            "idPaciente" => $pId,
+            "nombre" => $pNombre,
+            "apellidos" => $pApellidos
+        );
+
+        $doctor_item = array(
+            "idDoctor" =>$dId,
+            "nombre" =>$dNombre,
+            "apellidos" => $dApellidos
+        );
+
+        $admin_item = array(
+            "idAdministrativo" => $aId,
+            "nombre" => $aNombre,
+            "apellidos" => $aApellidos
+        );
+
         $cita_item=array(
             "idCita" => $idCita,
-            "idPaciente" => $idPaciente,
-            "idDoctor" => $idDoctor,
-            "idAdministrativo" => $idAdministrativo,
-            "fecha" => $fecha
+            "fecha" => $fecha,
+            "paciente" => $paciente_item,
+            "doctor" => $doctor_item,
+            "admin" => $admin_item
+        );
+        
+        $cita_item=array(
+            "idCita" => $idCita,
+            "fecha" => $fecha,
+            "paciente" => $paciente_item,
+            "doctor" => $doctor_item,
+            "admin" => $admin_item
         );
  
         array_push($citas_arr, $cita_item);

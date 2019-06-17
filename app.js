@@ -41,6 +41,10 @@ app.config(function($routeProvider){
         .when("/admin",{
         templateUrl : "view/admin.html",
         controller: "adminController"
+    })
+        .when("/administrador",{
+        templateUrl: "view/administrator.html",
+        controller: "administratorController"
     });
 });
 
@@ -50,20 +54,124 @@ app.run(function($rootScope, $http, $location, $localStorage, $templateCache){
         $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currentUser.jwt;
         $rootScope.name = $localStorage.currentUser.nombre;
         $rootScope.logged=true;
+        $rootScope.admin = $localStorage.currentUser.admin;
     }
 
     // redirect to login page if not logged in and trying to access a restricted page
     $rootScope.$on('$locationChangeStart', function (event, next, current) {
-        var publicPages = ['/login','/','/signin'];
+        var publicPages = ['/login','/','/signin','/admin'];
         var restrictedPage = publicPages.indexOf($location.path()) === -1;
         console.log($location.path());
         if (restrictedPage && !$localStorage.currentUser) {
             $location.path('/');
         }
+
+        if($location.path=='/citas'){
+            $('.nav-link').removeClass('active');
+
+        }
+
     });
 });
 
-app.controller("adminController",function($scope, $rootScope, $http, AuthenticationService){
+app.controller("administratorController",function($scope,$http){
+    $scope.tabs=[true,false,false,false];
+
+    $http({
+        method: 'GET',
+        url: 'http://localhost/consultorio/api/cita/read.php'
+    }).then(
+        function success(response){
+            $scope.citas = response.data;
+        },
+        function error(response){
+            console.log(response);
+        }
+    );
+
+    $http({
+        method: 'GET',
+        url: 'http://localhost/consultorio/api/paciente/read.php'
+    }).then(
+        function success(response){
+            $scope.pacientes = response.data;
+        },
+        function error(response){
+            console.log(response);
+        }
+    );
+    
+    $http({
+        method: 'GET',
+        url: 'http://localhost/consultorio/api/doctor/read.php'
+    }).then(
+        function success(response){
+            $scope.doctores = response.data;
+        },
+        function error(response){
+            console.log(response);
+        }
+    );
+    
+    $http({
+        method: 'GET',
+        url: 'http://localhost/consultorio/api/administrativo/read.php'
+    }).then(
+        function success(response){
+            $scope.administradores = response.data;
+        },
+        function error(response){
+            console.log(response);
+        }
+    );
+
+    $scope.deleteCita = function(cita){
+        $http({
+            method: 'DELETE',
+            url: 'http://localhost/consultorio/api/cita/delete.php',
+            data: {
+                idCita: cita.idCita
+            }
+        }).then(
+            function success(response){
+                alert("Cita borrada exitosamente");
+                $scope.citas.splice($scope.citas.indexOf(cita),1);
+
+            },
+            function error(response){
+                alert("Hubo un error borrando la cita");
+            }
+        );
+    }
+
+    $scope.deletePaciente = function(paciente){
+        $http({
+            method: 'DELETE',
+            url: 'http://localhost/consultorio/api/paciente/delete.php',
+            data: {
+                idPaciente: paciente.idPaciente
+            }
+        }).then(
+            function success(response){
+                alert("Paciente borrado exitosamente");
+                $scope.pacientes.splice($scope.pacientes.indexOf(paciente),1);
+
+            },
+            function error(response){
+                alert("Hubo un error borrando al paciente");
+            }
+        );
+    };
+
+    $scope.toggle = function(index){
+        for(var i=0;i<$scope.tabs.length;i++){
+            $scope.tabs[i]=false;
+        }
+        $scope.tabs[index]=true;
+    }
+});
+
+app.controller("adminController",function($scope, $rootScope, $http, AuthenticationService, $location){
     $scope.login = function(){
         $scope.loading = true;
         AuthenticationService.AdminLogin($scope.email,$scope.password, function(result){

@@ -1,18 +1,21 @@
 <?php
 
-class Cita{
+class Administrativo{
 
     private $conn;
-    private $table_name = "cita";
+    private $table_name = "administrativo";
 
-    public $idCita;
-    public $paciente;
-    public $fecha;
-    public $enfermedad;
-    public $mensaje;
+    public $idAdministrativo;
+    public $nombre;
+    public $apellidos;
+    public $fechaNacimiento;
+    public $peso;
+    public $telefono;
+    public $email;
+    public $password;
 
 
-    function Cita($db){
+    function Administrativo($db){
         $this->conn = $db;
     }
 
@@ -28,22 +31,24 @@ class Cita{
     function create(){
 
         //query to insert
-        $query = "INSERT INTO ".$this->table_name." (idPaciente, idDoctor, idAdministrativo, fecha) VALUES (:idPaciente, :idDoctor, :idAdministrativo, :fecha)";
+        $query = "INSERT INTO ".$this->table_name." (nombre, apellidos, telefono, email, password) VALUES (:nombre, :apellidos, :telefono, :email, :password)";
 
         //prepare query
         $stmt = $this->conn->prepare($query);
 
         //sanitize
-        $this->idPaciente=htmlspecialchars(strip_tags($this->idPaciente));
-        $this->idDoctor=htmlspecialchars(strip_tags($this->idDoctor));
-        $this->idAdministrativo=htmlspecialchars(strip_tags($this->idAdministrativo));
-        $this->fecha=htmlspecialchars(strip_tags($this->fecha));
+        $this->nombre=htmlspecialchars(strip_tags($this->nombre));
+        $this->apellidos=htmlspecialchars(strip_tags($this->apellidos));
+        $this->telefono=htmlspecialchars(strip_tags($this->telefono));
+        $this->email=htmlspecialchars(strip_tags($this->email));
+        $this->password=htmlspecialchars(strip_tags($this->password));
 
         //bind values
-        $stmt->bindParam(":idPaciente", $this->idPaciente);
-        $stmt->bindParam(":idDoctor", $this->idDoctor);
-        $stmt->bindParam(":idAdministrativo", $this->idAdministrativo);
-        $stmt->bindParam(":fecha", $this->fecha);
+        $stmt->bindParam(':nombre', $this->nombre);
+        $stmt->bindParam(':apellidos', $this->apellidos);
+        $stmt->bindParam(':telefono', $this->telefono);
+        $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':password', $this->password);
 
         //execute query
 
@@ -59,13 +64,13 @@ class Cita{
     function readOne(){
 
         // query to read single record
-        $query = "SELECT * FROM " . $this->table_name . " WHERE idCita = ? LIMIT 0,1";
+        $query = "SELECT * FROM " . $this->table_name . " WHERE idAdministrativo = ? LIMIT 0,1";
 
         // prepare query statement
         $stmt = $this->conn->prepare( $query );
 
         // bind id of product to be updated
-        $stmt->bindParam(1, $this->idCita);
+        $stmt->bindParam(1, $this->idAdministrativo);
 
         // execute query
         $stmt->execute();
@@ -74,43 +79,83 @@ class Cita{
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         // set values to object properties
-        $this->idCita = $row['idCita'];
-        $this->idPaciente = $row['idPaciente'];
-        $this->idDoctor = $row['idDoctor'];
         $this->idAdministrativo = $row['idAdministrativo'];
-        $this->fecha = $row['fecha'];
+        $this->nombre = $row['nombre'];
+        $this->apellidos = $row['apellidos'];
+        $this->telefono = $row['telefono'];
+        $this->email = $row['email'];
     }
+
+    // check if given email exist in the database
+    function emailExists(){
+
+        // query to check if email exists
+        $query = "SELECT * FROM " . $this->table_name . " WHERE email = ? LIMIT 0,1";
+
+        // prepare the query
+        $stmt = $this->conn->prepare( $query );
+
+        // sanitize
+        $this->email=htmlspecialchars(strip_tags($this->email));
+
+        // bind given email value
+        $stmt->bindParam(1, $this->email);
+
+        // execute the query
+        $stmt->execute();
+
+        // get number of rows
+        $num = $stmt->rowCount();
+
+        // if email exists, assign values to object properties for easy access and use for php sessions
+        if($num>0){
+
+            // get record details / values
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            // assign values to object properties
+            $this->idAdministrativo = $row['idAdministrativo'];
+            $this->nombre = $row['nombre'];
+            $this->apellidos = $row['apellidos'];
+            $this->telefono = $row['telefono'];
+            $this->password = $row['password'];
+
+            // return true because email exists in the database
+            return true;
+        }
+
+        // return false if email does not exist in the database
+        return false;
+    }
+
 
     // update the product
     function update(){
 
         // update query
-        $query = "UPDATE
-                " . $this->table_name . "
+        $query = "UPDATE " . $this->table_name . "
             SET
-                idPaciente = :idPaciente,
-                idDoctor = :idDoctor,
-                idAdministrativo = :idAdministrativo,
-                fecha = :fecha
-            WHERE
-                idCita = :idCita";
+                nombre = :nombre,
+                apellidos = :apellidos,
+                telefono = :telefono,
+                email = :email
+                {$password_set}
+            WHERE idAdministrativo = :idAdministrativo";
 
         // prepare query statement
         $stmt = $this->conn->prepare($query);
 
         //sanitize
-        $this->idPaciente=htmlspecialchars(strip_tags($this->idPaciente));
-        $this->idDoctor=htmlspecialchars(strip_tags($this->idDoctor));
-        $this->idAdministrativo=htmlspecialchars(strip_tags($this->idAdministrativo));
-        $this->fecha=htmlspecialchars(strip_tags($this->fecha));
-        $this->idCita = htmlspecialchars(strip_tags($this->idCita));
+        $this->nombre=htmlspecialchars(strip_tags($this->nombre));
+        $this->apellidos=htmlspecialchars(strip_tags($this->apellidos));
+        $this->telefono=htmlspecialchars(strip_tags($this->telefono));
+        $this->email=htmlspecialchars(strip_tags($this->email));
 
         //bind values
-        $stmt->bindParam(":idCita",$this->idCita);
-        $stmt->bindParam(":idPaciente", $this->idPaciente);
-        $stmt->bindParam(":idDoctor", $this->idDoctor);
-        $stmt->bindParam(":idAdministrativo", $this->idAdministrativo);
-        $stmt->bindParam(":fecha", $this->fecha);
+        $stmt->bindParam(':nombre', $this->nombre);
+        $stmt->bindParam(':apellidos', $this->apellidos);
+        $stmt->bindParam(':telefono', $this->telefono);
+        $stmt->bindParam(':email', $this->email);
 
         // execute the query
         if($stmt->execute()){
@@ -124,16 +169,16 @@ class Cita{
     function delete(){
 
         // delete query
-        $query = "DELETE FROM " . $this->table_name . " WHERE idCita = ?";
+        $query = "DELETE FROM " . $this->table_name . " WHERE idAdministrativo = ?";
 
         // prepare query
         $stmt = $this->conn->prepare($query);
 
         // sanitize
-        $this->id=htmlspecialchars(strip_tags($this->idCita));
+        $this->id=htmlspecialchars(strip_tags($this->idAdministrativo));
 
         // bind id of record to delete
-        $stmt->bindParam(1, $this->idCita);
+        $stmt->bindParam(1, $this->idAdministrativo);
 
         // execute query
         if($stmt->execute()){
