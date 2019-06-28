@@ -28,13 +28,12 @@ class Doctor{
     function create(){
 
         //query to insert
-        $query = "INSERT INTO ".$this->table_name." (idDoctor, nombre, apellidos, telefono, email, password) VALUES (:idDoctor, :nombre, :apellidos, :telefono, :email, :password)";
+        $query = "INSERT INTO ".$this->table_name." (nombre, apellidos, telefono, email, password) VALUES (:nombre, :apellidos, :telefono, :email, :password)";
 
         //prepare query
         $stmt = $this->conn->prepare($query);
 
         //sanitize
-        $this->idDoctor=htmlspecialchars(strip_tags($this->idDoctor));
         $this->nombre=htmlspecialchars(strip_tags($this->nombre));
         $this->apellidos=htmlspecialchars(strip_tags($this->apellidos));
         $this->telefono=htmlspecialchars(strip_tags($this->telefono));
@@ -42,16 +41,20 @@ class Doctor{
         $this->password=htmlspecialchars(strip_tags($this->password));
 
         //bind values
-        $stmt->bindParam(":idDoctor", $this->idDoctor);
+
         $stmt->bindParam(":nombre", $this->nombre);
         $stmt->bindParam(":apellidos", $this->apellidos);
         $stmt->bindParam(":telefono", $this->telefono);
         $stmt->bindParam(":email", $this->email);
-        $stmt->bindParam(":password", $this->password);
         
+        $password_hash = password_hash($this->password, PASSWORD_BCRYPT);
+        $stmt->bindParam(':password',$password_hash);
+
 
         //execute query
 
+        
+        
         if($stmt->execute()){
             return true;
         }
@@ -112,7 +115,7 @@ class Doctor{
         $this->telefono = htmlspecialchars(strip_tags($this->telefono));
 
         //bind values
-        $stmt->bindParam(":idDoctor",$this->idDocotr);
+        $stmt->bindParam(":idDoctor",$this->idDoctor);
         $stmt->bindParam(":nombre", $this->nombre);
         $stmt->bindParam(":apellidos", $this->apellidos);
         $stmt->bindParam(":telefono", $this->telefono);
@@ -130,16 +133,16 @@ class Doctor{
     function delete(){
 
         // delete query
-        $query = "DELETE FROM " . $this->table_name . " WHERE idDoctor = ?";
+        $query = "DELETE FROM " . $this->table_name . " WHERE (idDoctor = :idDoctor)";
 
         // prepare query
         $stmt = $this->conn->prepare($query);
 
         // sanitize
-        $this->id=htmlspecialchars(strip_tags($this->idDoctor));
-
+        //$this->idDoctor=htmlspecialchars(strip_tags($this->idDoctor));
+        
         // bind id of record to delete
-        $stmt->bindParam(1, $this->idDoctor);
+        $stmt->bindParam(":idDoctor", $this->idDoctor);
 
         // execute query
         if($stmt->execute()){

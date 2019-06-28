@@ -20,6 +20,7 @@ $paciente = new Paciente($db);
 // get posted data
 $data = json_decode(file_get_contents("php://input"));
 
+
 // make sure data is not empty
 if(
     !empty($data->nombre) &&
@@ -57,8 +58,7 @@ if(
         http_response_code(503);
 
         // tell the user
-        //echo json_encode(array("message" => "Unable to create paciente."));
-        echo print_r($data);
+        echo json_encode(array("message" => "Unable to create paciente."));
     }
 }
 
@@ -67,9 +67,9 @@ else{
 
     // set response code - 400 bad request
     http_response_code(400);
-    echo print_r($data);
 
     // tell the user
-    //echo json_encode(array("message" => "Unable to create Paciente. Data is incomplete."));
+    echo json_encode(array("message" => "Unable to create Paciente. Data is incomplete."));
 }
+
 ?>

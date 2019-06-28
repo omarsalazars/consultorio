@@ -63,6 +63,6 @@ else{
     http_response_code(400);
 
     // tell the user
-    echo json_encode(array("message" => "Unable to create cita. Data is incomplete."));
+    echo json_encode(array("message" => "Unable to create cita. Data is incomplete.", "data" => $data));
 }
 ?>

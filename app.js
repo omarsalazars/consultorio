@@ -3,6 +3,7 @@ app.config(function($routeProvider){
     $routeProvider
         .when("/",{
         templateUrl : "view/indexView.html"
+
     })
         .when("/about",{
         templateUrl : "view/about.html",
@@ -80,7 +81,7 @@ app.controller("administratorController",function($scope,$http,$routeParams){
         $(".admin").find(".nav-link").removeClass('active');
         $(this).addClass('active');
     });
-    
+
     $scope.toggle = function(index){
         for(var i=0;i<$scope.tabs.length;i++){
             $scope.tabs[i]=false;
@@ -97,54 +98,62 @@ app.controller("administratorController",function($scope,$http,$routeParams){
     else{
         $scope.tabs[0]=true;
     }
-    
-    $http({
-        method: 'GET',
-        url: 'http://localhost/consultorio/api/cita/read.php'
-    }).then(
-        function success(response){
-            $scope.citas = response.data;
-        },
-        function error(response){
-            console.log(response);
-        }
-    );
 
-    $http({
-        method: 'GET',
-        url: 'http://localhost/consultorio/api/paciente/read.php'
-    }).then(
-        function success(response){
-            $scope.pacientes = response.data;
-        },
-        function error(response){
-            console.log(response);
-        }
-    );
+    $scope.getCitas = function(){
+        $http({
+            method: 'GET',
+            url: 'http://localhost/consultorio/api/cita/read.php'
+        }).then(
+            function success(response){
+                $scope.citas = response.data;
+            },
+            function error(response){
+                console.log(response);
+            }
+        );
+    };
 
-    $http({
-        method: 'GET',
-        url: 'http://localhost/consultorio/api/doctor/read.php'
-    }).then(
-        function success(response){
-            $scope.doctores = response.data;
-        },
-        function error(response){
-            console.log(response);
-        }
-    );
+    $scope.getPacientes = function(){
+        $http({
+            method: 'GET',
+            url: 'http://localhost/consultorio/api/paciente/read.php'
+        }).then(
+            function success(response){
+                $scope.pacientes = response.data;
+            },
+            function error(response){
+                console.log(response);
+            }
+        );
+    }
 
-    $http({
-        method: 'GET',
-        url: 'http://localhost/consultorio/api/administrativo/read.php'
-    }).then(
-        function success(response){
-            $scope.administradores = response.data;
-        },
-        function error(response){
-            console.log(response);
-        }
-    );
+    $scope.getDoctors = function(){
+        $http({
+            method: 'GET',
+            url: 'http://localhost/consultorio/api/doctor/read.php'
+        }).then(
+            function success(response){
+                $scope.doctores = response.data;
+            },
+            function error(response){
+                console.log(response);
+            }
+        );
+    }
+
+    $scope.getAdministrativos = function(){
+        $http({
+            method: 'GET',
+            url: 'http://localhost/consultorio/api/administrativo/read.php'
+        }).then(
+            function success(response){
+                $scope.administradores = response.data;
+            },
+            function error(response){
+                console.log(response);
+            }
+        );
+    };
 
     $scope.deleteCita = function(cita){
         $http({
@@ -183,6 +192,120 @@ app.controller("administratorController",function($scope,$http,$routeParams){
             }
         );
     };
+
+    $scope.deleteDoctor = function(doctor){
+        $http({
+            method:'DELETE',
+            url:'http://localhost/consultorio/api/doctor/delete.php',
+            data: {
+                "idDoctor" : doctor.idDoctor
+            }
+        }).then(
+            function success(response){
+                alert("Doctor eliminado exitosamente");
+                console.log(response);
+                $scope.getDoctors();
+            },
+            function error(response){
+                alert("Error eliminando al doctor");
+                console.log(response);
+            }
+        );
+    };
+
+    $scope.crearCita = function(){
+        data = {
+            idPaciente: $scope.newCita.idPaciente,
+            idDoctor: $scope.newCita.idDoctor,
+            idAdministrativo: "1",
+            fecha: formatDate($scope.newCita.fecha)
+        };
+        console.log(data);
+        $http({
+            method: 'POST',
+            url:'http://localhost/consultorio/api/cita/create.php',
+            headers: {
+                "Accept": "application/json;charset=utf-8",
+            },
+            dataType:"json",
+            data: data
+        }).then(
+            function success(response){
+                alert('Cita creada exitosamente');
+                $scope.getCitas();
+            },
+            function error(response){
+                alert(response);
+                console.log(response);
+            }
+        );
+    };
+
+    $scope.crearDoctor = function(){
+        data = {
+            nombre: $scope.newDoctor.nombre,
+            apellidos: $scope.newDoctor.apellidos,
+            telefono: $scope.newDoctor.telefono,
+            email: $scope.newDoctor.email,
+            password: $scope.newDoctor.password
+        };
+        console.log(data);
+        $http({
+            method: 'POST',
+            url: 'http://localhost/consultorio/api/doctor/create.php',
+            data:data
+        }).then(
+            function success(response){
+                alert('Doctor registrado correctamente');
+                $scope.getDoctors();
+            },
+            function error(response){
+                alert('Error creando al doctor');
+                console.log(response);
+            }
+        );
+    };
+
+    $scope.crearPaciente = function(){
+        data = {
+            nombre: $scope.newPaciente.nombre,
+            apellidos: $scope.newPaciente.apellidos,
+            fechaNacimiento: formatDate($scope.newPaciente.fechaNacimiento),
+            peso: $scope.newPaciente.peso,
+            email: $scope.newPaciente.email,
+            password: $scope.newPaciente.password,
+            telefono : $scope.newPaciente.telefono
+        };
+        console.log(data);
+        $http({
+            method : "POST",
+            url : "http://localhost/consultorio/api/paciente/create.php",
+            headers: {
+                "Accept": "application/json;charset=utf-8",
+            },
+            dataType:"json",
+            data : data
+        }).then(
+            function success(response){
+                $scope.data = response.data;
+                alert('Tu usuario se ha creado correctamente. Inicia sesión para continuar');
+                console.log(response);
+                $scope.getPacientes();
+            },
+            function error(response){
+                $scope.data = response.statusText;
+                alert('Ocurrió un error inesperado al crear tu cuenta, vuelve a intentarlo más tarde.');
+                console.log(response);
+            }
+        );
+    }
+
+    $scope.getCitas();
+    $scope.getPacientes();
+    $scope.getDoctors();
+    $scope.getAdministrativos();
+
+
 });
 
 app.controller("adminController",function($scope, $rootScope, $http, AuthenticationService, $location){
@@ -209,50 +332,87 @@ app.controller("adminController",function($scope, $rootScope, $http, Authenticat
 
 app.controller("accountController",function($scope,$rootScope,$http,$localStorage){
 
-    $http({
-        method: 'GET',
-        url: 'http://localhost/consultorio/api/paciente/read_one.php',
-        dataType: 'json',
-        params : {
-            idPaciente : $localStorage.currentUser.idPaciente
-        }
-    }).then(
-        function success(response){
-            $scope.user = response.data;
-            $scope.user.peso = parseInt($scope.user.peso);
-            $scope.user.telefono = parseInt($scope.user.telefono);
-            console.log(response);
-            data = {
-                nombre : $scope.user.nombre,
-                apellidos : $scope.user.apellidos,
-                fechaNacimiento : formatDate($scope.user.fechaNacimiento),
-                peso : $scope.user.peso,
-                telefono : $scope.user.telefono,
-                email : $scope.user.email,
-                password : $scope.user.password,
-                jwt: $localStorage.currentUser.jwt
-            };
-        },
-        function error(response){
-            console.log(response);
-        }
-    );
+    $scope.crearCita = function(){
+        data = {
+            idPaciente: "1",
+            idDoctor: "6",
+            idAdministrativo: "1",
+            fecha: formatDate($scope.newCita.fecha)
+        };
+        console.log(data);
+        $http({
+            method: 'POST',
+            url:'http://localhost/consultorio/api/cita/create.php',
+            headers: {
+                "Accept": "application/json;charset=utf-8",
+            },
+            dataType:"json",
+            data: data
+        }).then(
+            function success(response){
+                alert('Cita creada exitosamente');
+                console.log(response);
+                $scope.getCitasByPaciente();
+            },
+            function error(response){
+                alert(response);
+                console.log(response);
+            }
+        );
+    };
 
-    $http({
-        method : 'GET',
-        url : 'http://localhost/consultorio/api/cita/read_by_user.php',
-        params: {
-            idPaciente : $localStorage.currentUser.idPaciente
-        }
-    }).then(
-        function success(response){
-            console.log(response.data);
-            $scope.citas = response.data;
-        },
-        function error(response){
-            console.log(response);
-        }
-    );
+
+    $scope.getPaciente= function(){
+        $http({
+            method: 'GET',
+            url: 'http://localhost/consultorio/api/paciente/read_one.php',
+            dataType: 'json',
+            params : {
+                idPaciente : "1"
+            }
+        }).then(
+            function success(response){
+                $scope.paciente = response.data;
+                console.log($scope.paciente);
+                $scope.user = response.data;
+                $scope.user.peso = parseInt($scope.user.peso);
+                $scope.user.telefono = parseInt($scope.user.telefono);
+                console.log(response);
+                data = {
+                    nombre : $scope.user.nombre,
+                    apellidos : $scope.user.apellidos,
+                    fechaNacimiento : formatDate($scope.user.fechaNacimiento),
+                    peso : $scope.user.peso,
+                    telefono : $scope.user.telefono,
+                    email : $scope.user.email,
+                    password : $scope.user.password,
+                    jwt: $localStorage.currentUser.jwt
+                };
+            },
+            function error(response){
+                console.log(response);
+            }
+        );
+    }
+
+    $scope.getCitasByPaciente = function(){
+
+        $http({
+            method : 'GET',
+            url : 'http://localhost/consultorio/api/cita/read_by_user.php',
+            params: {
+                idPaciente : "1"
+            }
+        }).then(
+            function success(response){
+                console.log(response.data);
+                $scope.citas = response.data;
+            },
+            function error(response){
+                console.log(response);
+            }
+        );
+    }
 
     $scope.update = function(){
         $http({
@@ -276,6 +436,11 @@ app.controller("accountController",function($scope,$rootScope,$http,$localStorag
             }
         );
     };
+    
+    $scope.getPaciente();
+    $scope.getCitasByPaciente();
+
+
 });
 
 app.controller("headerController",function($scope,$rootScope,AuthenticationService){

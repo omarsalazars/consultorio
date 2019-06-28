@@ -52,5 +52,25 @@
             </tbody>
         </table>
 
+        <h3>Crear cita</h3>
+                <div class="row">
+                    <div class="col-md-6 col-xs-12">
+                        <label>Fecha</label>
+                        <input type="date" class="form-control" ng-model="newCita.fecha">
+                    </div>
+                    <div class="col-md-6 col-xs-12">
+                        <label>Doctor</label>
+                        <select class="form-control" ng-model="newCita.idDoctor">
+                            <option value="6">
+                                Juan Pablo Reyes Herrera
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="text-center py-3">
+                    <button ng-click="crearCita()" type="button" class="btn btn-success">Crear cita</button>
+                </div>
+            </div>
+        
     </div>
 </div>

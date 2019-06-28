@@ -1,29 +1,20 @@
 <!--================Header Menu Area =================-->
+<style>
+    @media (max-width:768px){
+        .none{
+            display: none;
+        }
+        .block{
+            display: block;
+        }
+    }
+</style>
+
 <header ng-controller="headerController">
     <div class="top_menu row m0">
         <div class="container">
             <div class="float-left">
                 <ul class="left_side">
-                    <li>
-                        <a href="login.php">
-                            <i class="fa fa-facebook-f"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="login.html">
-                            <i class="fa fa-twitter"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="login.html">
-                            <i class="fa fa-dribbble"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="login.html">
-                            <i class="fa fa-behance"></i>
-                        </a>
-                    </li>
                     <li ng-show="!logged">
                         <a href="#!signin">Registrarse</a>
                     </li>
@@ -32,23 +23,24 @@
                     </li>
                     <li>
                         <a href="#!cuenta" ng-show="logged">
-                            Mi cuenta
+                            <p>Bienvenido <span style="color:cornflowerblue; text-decoration: underline;">{{name}}</span></p>
                         </a>
-                    </li>
-                    <li>
                         <a href="#/!" ng-click="logout()" ng-show="logged">Cerrar sesion</a>
                     </li>
-                    <li ng-show="logged">
-                        <p>Bienvenido {{name}}</p>
+                    <li class="block">
+                        <a href="tel:+524492773290">
+                            <i class="lnr lnr-phone-handset"></i>
+                            4491456789
+                        </a>
                     </li>
                 </ul>
             </div>
-            <div class="float-right">
+            <div class="float-right none">
                 <ul class="right_side">
                     <li>
-                        <a href="login.html">
+                        <a href="tel:+524492773290">
                             <i class="lnr lnr-phone-handset"></i>
-                            449-145-67-89
+                            4491456789
                         </a>
                     </li>
                     <li>
@@ -115,6 +107,9 @@
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="#!contact">Contactanos</a>
+                                </li>
+                                <li class="nav-item" ng-show="admin">
+                                    <a class="nav-link" href="#!administrador/0">Administrar</a>
                                 </li>
                             </ul>
                         </div>

@@ -6,31 +6,32 @@ header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-// include database and object file
-include_once '../config/connection.php';
-include_once '../objects/cita.php';
-
 // get database connection
+include_once '../config/connection.php';
+
+// instantiate product object
+include_once '../objects/doctor.php';
+
 $database = new Database();
 $db = $database->getConnection();
 
-// prepare product object
-$cita = new Cita($db);
+$doctor = new Doctor($db);
 
-// get product id
+// get posted data
 $data = json_decode(file_get_contents("php://input"));
 
 // set product id to be deleted
-$cita->idCita = $data->idCita;
+$doctor->idDoctor = $data->idDoctor;
+
 
 // delete the product
-if($cita->delete()){
+if($doctor->delete()){
 
     // set response code - 200 ok
     http_response_code(200);
 
     // tell the user
-    echo json_encode(array("message" => "Cita was deleted."));
+    echo json_encode(array("message" => "Doctor was deleted."));
 }
 
 // if unable to delete the product
@@ -40,6 +41,6 @@ else{
     http_response_code(503);
 
     // tell the user
-    echo json_encode(array("message" => "Unable to delete cita."));
+    echo json_encode(array("message" => "Unable to delete Doctor."));
 }
 ?>

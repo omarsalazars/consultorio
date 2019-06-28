@@ -35,8 +35,12 @@
                         <tr ng-repeat="cita in citas">
                             <th scope="row">{{cita.idCita}}</th>
                             <td>{{cita.fecha}}</td>
-                            <td>{{cita.doctor.nombre}} {{cita.doctor.apellidos}}</td>
-                            <td>{{cita.paciente.nombre}} {{cita.paciente.apellidos}}</td>
+                            <td>
+                                {{cita.paciente.nombre}} {{cita.paciente.apellidos}}
+                            </td>
+                            <td>
+                                {{cita.doctor.nombre}} {{cita.doctor.apellidos}}
+                            </td>
                             <td>{{cita.admin.nombre}} {{cita.admin.apellidos}}</td>
                             <td>
                                 <button type="button" class="btn btn-info">Modificar</button>
@@ -52,18 +56,18 @@
                 <div class="row">
                     <div class="col-md-6 col-xs-12">
                         <label>Paciente</label>
-                        <select class="form-control">
+                        <select class="form-control" ng-model="newCita.idPaciente">
                             <option>Seleccione un paciente</option>
-                            <option ng-repeat="paciente in pacientes" value="{{paciente.id}}">
+                            <option ng-repeat="paciente in pacientes" value="{{paciente.idPaciente}}">
                                 {{paciente.nombre}} {{paciente.apellidos}}
                             </option>
                         </select>
                     </div>
                     <div class="col-md-6 col-xs-12">
                         <label>Doctor</label>
-                        <select class="form-control">
+                        <select class="form-control" ng-model="newCita.idDoctor">
                             <option>Seleccione un doctor</option>
-                            <option ng-repeat="doctor in doctores" value="{{doctor.id}}">
+                            <option ng-repeat="doctor in doctores" value="{{doctor.idDoctor}}">
                                 {{doctor.nombre}} {{doctor.apellidos}}
                             </option>
                         </select>
@@ -72,11 +76,11 @@
                 <div class="row py-2">
                     <div class="col-md-12    col-xs-12">
                         <label>Fecha</label>
-                        <input type="date" class="form-control">
+                        <input type="date" class="form-control" ng-model="newCita.fecha">
                     </div>
                 </div>
                 <div class="text-center py-3">
-                    <button type="button" class="btn btn-success">Crear cita</button>
+                    <button ng-click="crearCita()" type="button" class="btn btn-success">Crear cita</button>
                 </div>
             </div>
 
@@ -117,41 +121,41 @@
                 <div class="row">
                     <div class="col-md-6 col-xs-12">
                         <label>Nombre</label>
-                        <input class="form-control" type="text" placeholder="Nombre">
+                        <input class="form-control" type="text" placeholder="Nombre" ng-model="newPaciente.nombre">
                     </div>
                     <div class="col-md-6 col-xs-12">
                         <label>Apellidos</label>
-                        <input class="form-control" type="text" placeholder="Apellidos">
+                        <input class="form-control" type="text" placeholder="Apellidos" ng-model="newPaciente.apellidos">
                     </div>
                 </div>
                 <div class="row py-2">
                     <div class="col-md-6 col-xs-12">
                         <label>Fecha de Nacimiento</label>
-                        <input class="form-control" type="email" placeholder="Fecha de Nacimiento">
+                        <input class="form-control" type="date" ng-model="newPaciente.fechaNacimiento">
                     </div>
                     <div class="col-md-6 col-xs-12">
-                        <label>Telefono</label>
-                        <input class="form-control" type="number" placeholder="Telefono">
+                        <label>Telefono {{newPaciente.telefono}}</label>
+                        <input class="form-control" type="number" placeholder="Telefono" ng-model="newPaciente.telefono">
                     </div>
                 </div>
                 <div class="row py-2">
                     <div class="col-md-6 col-xs-12">
                         <label>Email</label>
-                        <input class="form-control" type="email" placeholder="Email">
+                        <input class="form-control" type="email" placeholder="Email" ng-model="newPaciente.email">
                     </div>
                     <div class="col-md-6 col-xs-12">
                         <label>Contraseña</label>
-                        <input class="form-control" type="password" placeholder="Contraseña">
+                        <input class="form-control" type="password" placeholder="Contraseña" ng-model="newPaciente.password">
                     </div>
                 </div>
                 <div class="row py-3">
                     <div class="col-md-12 col-xs-12">
                         <label>Peso</label>
-                        <input class="form-control" type="number" placeholder="Peso">
+                        <input class="form-control" type="number" placeholder="Peso" ng-model="newPaciente.peso">
                     </div>
                 </div>
                 <div class="text-center py-3">
-                    <button type="button" class="btn btn-success" style="width:100%;">Crear Paciente</button>
+                    <button type="button" class="btn btn-success" style="width:100%;" ng-click="crearPaciente()">Crear Paciente</button>
                 </div>
             </div>
 
@@ -170,7 +174,7 @@
                     </thead>
                     <tbody>
                         <tr ng-repeat="doctor in doctores">
-                            <th scope="row">{{doctor.idPaciente}}</th>
+                            <th scope="row">{{doctor.idDoctor}}</th>
                             <td>{{doctor.nombre}}</td>
                             <td>{{doctor.apellidos}}</td>
                             <td>{{doctor.telefono}}</td>
@@ -188,31 +192,31 @@
                 <div class="row">
                     <div class="col-md-6 col-xs-12">
                         <label>Nombre</label>
-                        <input class="form-control" type="text" placeholder="Nombre">
+                        <input class="form-control" type="text" placeholder="Nombre" ng-model="newDoctor.nombre">
                     </div>
                     <div class="col-md-6 col-xs-12">
                         <label>Apellidos</label>
-                        <input class="form-control" type="text" placeholder="Apellidos">
-                    </div>
-                </div>
-                <div class="row py-2">
-                    <div class="col-md-6 col-xs-12">
-                        <label>Email</label>
-                        <input class="form-control" type="email" placeholder="Email">
-                    </div>
-                    <div class="col-md-6 col-xs-12">
-                        <label>Contraseña</label>
-                        <input class="form-control" type="password" placeholder="Contraseña">
+                        <input class="form-control" type="text" placeholder="Apellidos" ng-model="newDoctor.apellidos">
                     </div>
                 </div>
                 <div class="row py-2">
                     <div class="col-md-6 col-xs-12">
                         <label>Telefono</label>
-                        <input class="form-control" type="number" placeholder="Telefono">
+                        <input class="form-control" type="number" placeholder="Telefono" ng-model="newDoctor.telefono">
+                    </div>
+                    <div class="col-md-6 col-xs-12">
+                        <label>Email</label>
+                        <input class="form-control" type="email" placeholder="Email" ng-model="newDoctor.email">
+                    </div>
+                </div>
+                <div class="row py-2">
+                    <div class="col-md-12 col-xs-12">
+                        <label>Contraseña</label>
+                        <input class="form-control" type="password" placeholder="Contraseña" ng-model="newDoctor.password">
                     </div>
                 </div>
                 <div class="text-center py-3">
-                    <button type="button" class="btn btn-success" style="width:100%;">Crear Doctor</button>
+                    <button type="button" class="btn btn-success" style="width:100%;" ng-click="crearDoctor()">Crear Paciente</button>
                 </div>
                 
                 
